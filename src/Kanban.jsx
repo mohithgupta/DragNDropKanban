@@ -53,26 +53,26 @@ const Board = () => {
 const DEFAULT_CARDS = [
   // BACKLOG
   { 
-    title: "Look into render bug in dashboard", 
+    title: "Backlog tasks go here...never to be looked at again 👻", 
     id: "1", 
     column: "backlog" 
   },
   // TODO
   {
-    title: "Research DB options for new microservice",
+    title: "Todo tasks shall be put here...to be picked up I-don't-know-when 🤐",
     id: "5",
     column: "todo",
   },
 
   // In Progress
   {
-    title: "Refactor context providers to use Zustand",
+    title: "In-Progress tasks will stay here...for a while 😅",
     id: "8",
     column: "inprogress",
   },
   // Complete
   {
-    title: "Set up DD dashboards for Lambda listener",
+    title: "No task reaches this stage, especially if it's a side project...like this Kanban itself 🤧",
     id: "10",
     column: "complete",
   },
