@@ -54,7 +54,7 @@ export const Column = ({ title, headingColor, cards, column, setCards }) => {
   
       setdragActive(true);
     };
-  
+    
     const clearHighlights = (els) => {
       const indicators = els || getIndicators();
   
@@ -124,7 +124,7 @@ export const Column = ({ title, headingColor, cards, column, setCards }) => {
             dragActive ? "bg-neutral-800/50" : "bg-neutral-800/0"
           }`}
         >
-          {filteredCards.map((c) => <Card key={c.id} {...c} handleDragStart={handleDragStart} />)}
+          {filteredCards.map((card) => <Card key={card.id} {...card} handleDragStart={handleDragStart} onTouchEnd={handleDragStart} />)}
           <DropIndicatorLine beforeId={null} column={column} />
           <AddCard column={column} setCards={setCards} />
         </div>
@@ -137,13 +137,17 @@ const AddCard = ({ column, setCards }) => {
     const [adding, setAdding] = useState(false);
 
     const handleKeyDown = (e) => {
-      if(e.shiftKey || e.altKey) return;
-      if(e.ctrlKey && e.key==='Enter'){ 
-        setText('');
+      if((e.ctrlKey || e.shiftKey) && e.key==='Enter'){ 
+        e.stopPropagation();
+        e.preventDefault();
         handleSubmit(e);
         setAdding(true);
       }
-      else if(e.key === 'Enter') handleSubmit(e);
+      else if(!e.shiftKey && e.key === 'Enter') handleSubmit(e);
+    }
+
+    const handleChange = (e) => {
+      setText(e.target.value)
     }
   
     const handleSubmit = (e) => {
@@ -167,9 +171,11 @@ const AddCard = ({ column, setCards }) => {
       <>
         {adding ? (
           <motion.form layout onSubmit={handleSubmit}>
-            <textarea
-              onChange={(e) => setText(e.target.value)}
+            <input
+              type='text'
               onKeyDown={handleKeyDown}
+              onChange={handleChange}
+              value={text}
               autoFocus
               placeholder="Add new task..."
               className="w-full rounded border border-violet-400 bg-violet-400/20 p-3 text-sm text-neutral-50 placeholder-violet-300 focus:outline-0"

@@ -1,22 +1,18 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TrashCan } from "./TrashCan";
 import { Column } from './Column';
 
 export const Kanban = () => {
+  
+  const [cards, setCards] = useState(JSON.parse(localStorage.getItem('cards')) || DEFAULT_CARDS);
+
+  useEffect(() => {
+    localStorage.setItem('cards', JSON.stringify(cards));
+  }, [cards])
+  
   return (
-    <div className="h-screen w-full bg-neutral-900 text-neutral-50">
-      <Board />
-    </div>
-  );
-};
-
-const Board = () => {
-  const [cards, setCards] = useState(DEFAULT_CARDS);
-
-
-  return (
-    <div className="flex h-full w-full gap-3 p-12 border-solid border-slate-400">
+    <div className="flex h-full w-full gap-3 p-12 overflow-auto border-solid border-slate-400">
       <Column
         title="Backlog"
         column="backlog"
@@ -50,6 +46,8 @@ const Board = () => {
   );
 };
 
+
+
 const DEFAULT_CARDS = [
   // BACKLOG
   { 
@@ -60,6 +58,11 @@ const DEFAULT_CARDS = [
   // TODO
   {
     title: "Todo tasks shall be put here...to be picked up I-don't-know-when 🤐",
+    id: "2",
+    column: "todo",
+  },
+  {
+    title: "Enter -> Add the current task Ctrl/Shift + Enter -> Add the current task and open another task",
     id: "5",
     column: "todo",
   },
@@ -67,13 +70,13 @@ const DEFAULT_CARDS = [
   // In Progress
   {
     title: "In-Progress tasks will stay here...for a while 😅",
-    id: "8",
+    id: "3",
     column: "inprogress",
   },
   // Complete
   {
-    title: "No task reaches this stage, especially if it's a side project...like this Kanban itself 🤧",
-    id: "10",
+    title: "There's a legend saying that no task reaches here, especially if it's a side project...like this Kanban itself 🤧",
+    id: "4",
     column: "complete",
   },
 ];
