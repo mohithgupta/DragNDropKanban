@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FaFire } from 'react-icons/fa';
 import { FiTrash } from 'react-icons/fi';
 
-export const TrashCan = ({ setCards }) => {
+export const TrashCanCard = ({ setCards }) => {
     const [active, setActive] = useState(false);
   
     const handleDragOver = (e) => {

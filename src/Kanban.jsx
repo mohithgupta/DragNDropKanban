@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import { TrashCan } from "./TrashCan";
+import { TrashCanCard } from "./TrashCanCard";
 import { Column } from './Column';
 
 export const Kanban = () => {
@@ -41,7 +41,7 @@ export const Kanban = () => {
         cards={cards}
         setCards={setCards}
       />
-      <TrashCan setCards={setCards} />
+      <TrashCanCard setCards={setCards} />
     </div>
   );
 };
