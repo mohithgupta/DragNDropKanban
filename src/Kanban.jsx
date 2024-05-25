@@ -6,10 +6,15 @@ import { Column } from './Column';
 export const Kanban = () => {
   
   const [cards, setCards] = useState(JSON.parse(localStorage.getItem('cards')) || DEFAULT_CARDS);
+  const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     localStorage.setItem('cards', JSON.stringify(cards));
+    setWidth(window.innerWidth);
   }, [cards])
+
+  const isMobile = width <= 768;
+
   
   return (
     <div className="flex h-full w-full gap-3 p-12 overflow-auto border-solid border-slate-400">
@@ -41,7 +46,7 @@ export const Kanban = () => {
         cards={cards}
         setCards={setCards}
       />
-      <TrashCanCard setCards={setCards} />
+      {!isMobile && <TrashCanCard setCards={setCards} />}
     </div>
   );
 };

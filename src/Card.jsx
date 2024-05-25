@@ -1,11 +1,19 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { DropIndicatorLine } from './DropIndicatorLine';
 
 export const Card = ({ title, id, column, handleDragStart, setCards }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
+  const [width, setWidth] = useState(window.innerWidth);
+  
   const textareaRef = useRef(null);
+
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
+
+const isMobile = width <= 768;
 
   const handleEditSave = () => {
     setCards((prevCards) =>
@@ -29,6 +37,10 @@ export const Card = ({ title, id, column, handleDragStart, setCards }) => {
         textarea.setSelectionRange(textarea.value.length, textarea.value.length);
       }
     });
+  };
+
+  const handleDeleteclick = () => {
+    setCards((prevCards) => prevCards.filter((card) => card.id!== id));
   };
 
   return (
@@ -60,6 +72,13 @@ export const Card = ({ title, id, column, handleDragStart, setCards }) => {
         >
           ✎
         </button>
+        {isMobile && 
+          <button
+            className={`absolute top-1 left-1 hidden ${!isEditing && "group-hover:inline"} invert border-[1px] w-6 rounded-[100%] bg-neutral-900 hover:bg-neutral-700`}
+            onClick={handleDeleteclick}
+          >
+            🗑️
+          </button>}
       </motion.div>
     </>
   );

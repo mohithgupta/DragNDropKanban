@@ -4,7 +4,8 @@
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 7px;
+    height: 7px;
 }
    
   /* Handle */
@@ -15,5 +16,6 @@
   
   /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #776d6d; 
+    background: #494646;
+    cursor: default; 
 }
