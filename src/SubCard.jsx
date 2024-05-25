@@ -1,27 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { DropIndicatorLine } from './DropIndicatorLine';
-import { SubColumn } from './Subcolumn';
-import { deleteIcon } from './assets/images';
+import {deleteIcon} from './assets/images';
 
-export const Card = ({ title, id, column, handleDragStart, setCards }) => {
+export const SubCard = ({ title, id, column, handleDragStart, setSubCards }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
   const [width, setWidth] = useState(window.innerWidth);
   
-  const [subCards, setSubCards] = useState(JSON.parse(localStorage.getItem(`subCards-${id}`)) || []);
-
   const textareaRef = useRef(null);
-
-  useEffect(() => {
-    setWidth(window.innerWidth);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(`subCards-${id}`, JSON.stringify(subCards));
-  }, [id, subCards])
-
-const isMobile = width <= 768;
 
   const handleEditSave = () => {
     if(editTitle === ''){
@@ -29,9 +16,10 @@ const isMobile = width <= 768;
       setEditTitle(title)
       return;
     }
-    setCards((prevCards) =>
-      prevCards.map((card) =>
-        card.id === id ? { ...card, title: editTitle } : card
+
+    setSubCards((prevSubCards) =>
+      prevSubCards.map((SubCards) =>
+        SubCards.id === id ? { ...SubCards, title: editTitle } : SubCards
       )
     );
     setIsEditing(false);
@@ -53,7 +41,7 @@ const isMobile = width <= 768;
   };
 
   const handleDeleteclick = () => {
-    setCards((prevCards) => prevCards.filter((card) => card.id!== id));
+    setSubCards((prevSubCards) => prevSubCards.filter((SubCards) => SubCards.id!== id));
   };
 
   return (
@@ -64,7 +52,7 @@ const isMobile = width <= 768;
         layoutId={id}
         draggable="true"
         onDragStart={(e) => handleDragStart(e, { title, id, column })}
-        className="group relative cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing"
+        className="sub-group relative cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing"
       >
         {isEditing && (
           <textarea
@@ -79,23 +67,20 @@ const isMobile = width <= 768;
             autoFocus
           />
         )}
-        <p className="text-sm text-neutral-100 break-words mb-2">{title}</p>
+        <p className="text-sm text-neutral-100 break-words">{title}</p>
         <button
           className={`absolute top-1 right-1 hidden ${!isEditing && "group-hover:inline"} invert border-[1px] w-6 rounded-[100%] bg-neutral-200 hover:bg-neutral-400`}
           onClick={handleEditClick}
         >
           ✎
         </button>
-        {isMobile && 
-          <button
-            className={`absolute top-1 left-1 hidden ${!isEditing && "group-hover:inline"} invert border-[1px] w-6 rounded-[100%] bg-neutral-200 hover:bg-neutral-400`}
-            onClick={handleDeleteclick}
-          >
-          <img src={deleteIcon} alt="delete icon" />
-          </button>}
-          <SubColumn title="SubTasks:" subCards={subCards} setSubCards={setSubCards} id={id}/>
+        <button
+        className={`absolute top-1 left-1 hidden ${!isEditing && "group-hover:inline"} invert border-[1px] w-auto p-1 rounded-[100%] bg-neutral-200 hover:bg-neutral-400`}
+        onClick={handleDeleteclick}
+        >
+        <img src={deleteIcon} alt="delete icon" />
+        </button>
       </motion.div>
-          
     </>
   );
 };

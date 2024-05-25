@@ -6,16 +6,18 @@
 ::-webkit-scrollbar {
     width: 7px;
     height: 7px;
+    background: #776d6d; 
+
 }
    
   /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #776d6d; 
+    background: #494646; 
     border-radius: 10px;
 }
   
   /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #494646;
+    background: #776d6d;
     cursor: default; 
 }

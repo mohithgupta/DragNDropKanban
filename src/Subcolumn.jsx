@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { DropIndicatorLine } from './DropIndicatorLine';
-import { Card } from './Card';
+import { SubCard } from './SubCard';
 import { AddCard } from './AddCard';
 
-export const Column = ({ title, headingColor, cards, column, setCards }) => { 
+export const SubColumn = ({ title, subCards, id, setSubCards }) => { 
     const [dragActive, setdragActive] = useState(false);
   
     const handleDragStart = (e, card) => {
@@ -16,7 +16,6 @@ export const Column = ({ title, headingColor, cards, column, setCards }) => {
       const cardId = e.dataTransfer.getData("cardId");
   
       setdragActive(false);
-      clearHighlights();
   
       const indicators = getIndicators();
       const { element } = getNearestIndicator(e, indicators);
@@ -24,54 +23,35 @@ export const Column = ({ title, headingColor, cards, column, setCards }) => {
       const before = element.dataset.before || "-1";
   
       if (before !== cardId) {
-        let copy = [...cards];
+        let subCardsCopy = [...subCards];
   
-        let cardToTransfer = copy.find((c) => c.id === cardId);
+        let cardToTransfer = subCardsCopy.find((c) => c.id === cardId);
         if (!cardToTransfer) return;
-        cardToTransfer = { ...cardToTransfer, column };
+        cardToTransfer = { ...cardToTransfer, id };
   
-        copy = copy.filter((c) => c.id !== cardId);
+        subCardsCopy = subCardsCopy.filter((c) => c.id !== cardId);
   
         const moveToBack = before === "-1";
   
         if (moveToBack) {
-          copy.push(cardToTransfer);
+          subCardsCopy.push(cardToTransfer);
         } else {
-          const insertAtIndex = copy.findIndex((el) => el.id === before);
+          const insertAtIndex = subCardsCopy.findIndex((el) => el.id === before);
           if (insertAtIndex === undefined) return;
   
-          copy.splice(insertAtIndex, 0, cardToTransfer);
+          subCardsCopy.splice(insertAtIndex, 0, cardToTransfer);
         }
   
-        setCards(copy);
+        setSubCards(subCardsCopy);
       }
     };
   
     const handleDragOver = (e) => {
       e.preventDefault();
-      highlightIndicator(e);
   
       setdragActive(true);
     };
     
-    const clearHighlights = (els) => {
-      const indicators = els || getIndicators();
-  
-      indicators.forEach((i) => {
-        i.style.opacity = "0";
-      });
-    };
-  
-    const highlightIndicator = (e) => {
-      const indicators = getIndicators();
-  
-      clearHighlights(indicators);
-  
-      const el = getNearestIndicator(e, indicators);
-  
-      el.element.style.opacity = "1";
-    };
-  
     const getNearestIndicator = (e, indicators) => {
       const DISTANCE_OFFSET = 50;
   
@@ -97,23 +77,17 @@ export const Column = ({ title, headingColor, cards, column, setCards }) => {
     };
   
     const getIndicators = () => {
-      return Array.from(document.querySelectorAll(`[data-column="${column}"]`));
+      return Array.from(document.querySelectorAll(`[data-column="${id}"]`));
     };
   
     const handleDragLeave = () => {
-      clearHighlights();
       setdragActive(false);
     };
 
-    const filteredCards = cards.filter((c) => c.column === column);
-  
     return (
-      <div className="w-56 shrink-0">
+      <div>
         <div className="mb-3 flex items-center justify-between pr-4 pl-2">
-          <h3 className={`font-medium ${headingColor}`}>{title}</h3>
-          <span className="rounded-full border-slate-500 border-2 border-solid w-5 h-5 text-xs text-neutral-400 text-center">
-            {filteredCards.length}
-          </span>
+          {/* <h3 className={`font-medium mt-2 text-neutral-700`}>{title}</h3> */}
         </div>
         <div
           onDrop={handleDragEnd}
@@ -123,9 +97,9 @@ export const Column = ({ title, headingColor, cards, column, setCards }) => {
             dragActive ? "bg-neutral-800/50" : "bg-neutral-800/0"
           }`}
         >
-          {filteredCards.map((card) => <Card key={card.id} {...card} handleDragStart={handleDragStart} setCards={setCards} />)}
-          <DropIndicatorLine beforeId={null} column={column} />
-          <AddCard column={column} setCards={setCards} />
+          {subCards.map((card) => <SubCard key={card.id} {...card} handleDragStart={handleDragStart} setSubCards={setSubCards} />)}
+          <DropIndicatorLine beforeId={null} />
+          <AddCard column={id} setCards={setSubCards} />
         </div>
       </div>
     );

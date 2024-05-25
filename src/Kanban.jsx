@@ -17,7 +17,7 @@ export const Kanban = () => {
 
   
   return (
-    <div className="flex h-full w-full gap-3 p-12 overflow-auto border-solid border-slate-400">
+    <div className="flex w-full gap-3 p-12 pb-20 bg-neutral-900 overflow-auto border-solid border-slate-400">
       <Column
         title="Backlog"
         column="backlog"
