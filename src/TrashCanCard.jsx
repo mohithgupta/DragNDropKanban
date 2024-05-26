@@ -24,17 +24,20 @@ export const TrashCanCard = ({ setCards }) => {
     };
   
     return (
-      <div
-        onDrop={handleDragEnd}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        className={`mt-10 grid h-56 w-56 shrink-0 place-content-center rounded border text-3xl ${
-          active
-            ? "border-red-800 bg-red-800/20 text-red-500"
-            : "border-neutral-500 bg-neutral-500/20 text-neutral-500"
-        }`}
-      >
-        {active ? <FaFire className="animate-bounce" /> : <FiTrash />}
+      <div>
+        <h3 className='font-medium text-red-600'>Delete</h3>
+        <div
+          onDrop={handleDragEnd}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          className={`mt-4 grid w-56 h-full shrink-0 place-content-center rounded border text-3xl ${
+            active
+              ? "border-red-800 bg-red-800/20 text-red-500"
+              : "border-neutral-500 bg-neutral-500/20 text-neutral-500"
+          }`}
+        >
+          {active ? <FaFire className="animate-bounce" /> : <FiTrash />}
+        </div>
       </div>
     );
   };

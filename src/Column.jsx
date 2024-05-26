@@ -123,7 +123,7 @@ export const Column = ({ title, headingColor, cards, column, setCards }) => {
             dragActive ? "bg-neutral-800/50" : "bg-neutral-800/0"
           }`}
         >
-          {filteredCards.map((card) => <Card key={card.id} {...card} handleDragStart={handleDragStart} setCards={setCards} />)}
+          {filteredCards.map((card) => <Card key={card.id} {...card} handleDragStart={handleDragStart} setCards={setCards} setdragActive={setdragActive} />)}
           <DropIndicatorLine beforeId={null} column={column} />
           <AddCard column={column} setCards={setCards} />
         </div>
