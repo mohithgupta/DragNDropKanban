@@ -4,7 +4,7 @@ import { DropIndicatorLine } from './DropIndicatorLine';
 import { SubColumn } from './Subcolumn';
 import { deleteIcon } from './assets/images';
 
-export const Card = ({ title, id, column, handleDragStart, setCards }) => {
+export const Card = ({ title, id, column, handleDragStart, setCards, setdragActive }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
   const [width, setWidth] = useState(window.innerWidth);
@@ -43,6 +43,7 @@ const isMobile = width <= 768;
 
   const handleEditClick = () => {
     setIsEditing(true);
+    setdragActive(false);
     requestAnimationFrame(() => {
       if (textareaRef.current) {
         const textarea = textareaRef.current;

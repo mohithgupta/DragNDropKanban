@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from "framer-motion";
 import { DropIndicatorLine } from './DropIndicatorLine';
 import {deleteIcon} from './assets/images';
@@ -6,7 +6,7 @@ import {deleteIcon} from './assets/images';
 export const SubCard = ({ title, id, column, handleDragStart, setSubCards }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
-  const [width, setWidth] = useState(window.innerWidth);
+  const [isDone, setIsDone] = useState(false);
   
   const textareaRef = useRef(null);
 
@@ -39,6 +39,10 @@ export const SubCard = ({ title, id, column, handleDragStart, setSubCards }) => 
       }
     });
   };
+  
+  const handleDoneClick = () => {
+    setIsDone(prevDoneState =>!prevDoneState);
+  };
 
   const handleDeleteclick = () => {
     setSubCards((prevSubCards) => prevSubCards.filter((SubCards) => SubCards.id!== id));
@@ -67,7 +71,13 @@ export const SubCard = ({ title, id, column, handleDragStart, setSubCards }) => 
             autoFocus
           />
         )}
-        <p className="text-sm text-neutral-100 break-words">{title}</p>
+        <p className={`text-sm text-neutral-100 break-words ${isDone && "line-through text-opacity-30"}`}>{title}</p>
+        <button
+          className={`absolute top-1 right-8 hidden ${!isEditing && "group-hover:inline"} invert border-[1px] w-6 rounded-[100%] bg-neutral-200 hover:bg-neutral-400`}
+          onClick={handleDoneClick}
+        >
+          ✓
+        </button>
         <button
           className={`absolute top-1 right-1 hidden ${!isEditing && "group-hover:inline"} invert border-[1px] w-6 rounded-[100%] bg-neutral-200 hover:bg-neutral-400`}
           onClick={handleEditClick}

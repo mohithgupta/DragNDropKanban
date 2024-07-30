@@ -25,7 +25,7 @@ export const TrashCanCard = ({ setCards }) => {
   
     return (
       <div>
-        <h3 className='font-medium text-red-600'>Delete</h3>
+        <h3 className='font-medium text-red-600'>Drag here to Delete</h3>
         <div
           onDrop={handleDragEnd}
           onDragOver={handleDragOver}

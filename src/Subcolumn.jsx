@@ -5,7 +5,7 @@ import { DropIndicatorLine } from './DropIndicatorLine';
 import { SubCard } from './SubCard';
 import { AddCard } from './AddCard';
 
-export const SubColumn = ({ title, subCards, id, setSubCards }) => { 
+export const SubColumn = ({ subCards, id, setSubCards }) => { 
     const [dragActive, setdragActive] = useState(false);
   
     const handleDragStart = (e, card) => {
@@ -86,9 +86,6 @@ export const SubColumn = ({ title, subCards, id, setSubCards }) => {
 
     return (
       <div>
-        <div className="mb-3 flex items-center justify-between pr-4 pl-2">
-          {/* <h3 className={`font-medium mt-2 text-neutral-700`}>{title}</h3> */}
-        </div>
         <div
           onDrop={handleDragEnd}
           onDragOver={handleDragOver}

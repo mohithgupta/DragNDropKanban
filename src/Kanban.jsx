@@ -10,9 +10,12 @@ export const Kanban = () => {
 
   useEffect(() => {
     localStorage.setItem('cards', JSON.stringify(cards));
-    setWidth(window.innerWidth);
   }, [cards])
-
+  
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
+  
   const isMobile = width <= 768;
 
   
@@ -26,14 +29,14 @@ export const Kanban = () => {
         setCards={setCards}
       />
       <Column
-        title="TODO"
+        title="To-Do"
         column="todo"
         headingColor="text-yellow-200"
         cards={cards}
         setCards={setCards}
       />
       <Column
-        title="In progress"
+        title="In-progress"
         column="inprogress"
         headingColor="text-blue-200"
         cards={cards}
