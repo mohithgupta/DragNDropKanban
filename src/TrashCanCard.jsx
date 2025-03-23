@@ -21,6 +21,7 @@ export const TrashCanCard = ({ setCards }) => {
       setCards((pv) => pv.filter((c) => c.id !== cardId));
   
       setActive(false);
+      localStorage.removeItem(`subCards-${cardId}`)
     };
   
     return (

@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from "framer-motion";
 import { FiPlus } from 'react-icons/fi';
-import { Column } from './Column';
-
 
 export const AddCard = ({ column, setCards }) => {
     const [text, setText] = useState("");
     const [adding, setAdding] = useState(false);
+    const addCardRef = useRef(null);
 
     const handleKeyDown = (e) => {
       if((e.ctrlKey || e.shiftKey) && e.key==='Enter'){ 
@@ -33,16 +32,36 @@ export const AddCard = ({ column, setCards }) => {
         id: Math.random().toString(),
       }
 
-      setCards((pv) => [...pv, newCard]);
+      const newSubCard = {
+        column,
+        title: text.trim(),
+        id: Math.random().toString(),
+        isDone: false
+      }
+
+      setCards((pv) => [...pv, isNaN(column) ? newCard : newSubCard]);
   
       setAdding(false);
       setText('');
     };
+    
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (addCardRef.current && !addCardRef.current.contains(event.target)) {
+          setAdding(false);
+        }
+      }
   
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
+
     return (
       <>
         {adding ? (
-          <motion.form layout onSubmit={handleSubmit}>
+          <motion.form layout onSubmit={handleSubmit} ref={addCardRef}>
             <input
               type='text'
               onKeyDown={handleKeyDown}

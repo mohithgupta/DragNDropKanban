@@ -3,25 +3,20 @@ import { motion } from "framer-motion";
 import { DropIndicatorLine } from './DropIndicatorLine';
 import { SubColumn } from './Subcolumn';
 import { deleteIcon } from './assets/images';
+import useIsMobile from './hooks/useIsMobile';
 
 export const Card = ({ title, id, column, handleDragStart, setCards, setdragActive }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
-  const [width, setWidth] = useState(window.innerWidth);
-  
+  const isMobile = useIsMobile();
+
   const [subCards, setSubCards] = useState(JSON.parse(localStorage.getItem(`subCards-${id}`)) || []);
 
   const textareaRef = useRef(null);
 
   useEffect(() => {
-    setWidth(window.innerWidth);
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem(`subCards-${id}`, JSON.stringify(subCards));
   }, [id, subCards])
-
-const isMobile = width <= 768;
 
   const handleEditSave = () => {
     if(editTitle === ''){
@@ -55,6 +50,7 @@ const isMobile = width <= 768;
 
   const handleDeleteclick = () => {
     setCards((prevCards) => prevCards.filter((card) => card.id!== id));
+    localStorage.removeItem(`subCards-${id}`)
   };
 
   return (
@@ -94,7 +90,7 @@ const isMobile = width <= 768;
           >
           <img src={deleteIcon} alt="delete icon" />
           </button>}
-          <SubColumn title="SubTasks:" subCards={subCards} setSubCards={setSubCards} id={id}/>
+          <SubColumn subCards={subCards} setSubCards={setSubCards} id={id}/>
       </motion.div>
           
     </>

@@ -1,26 +1,19 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { TrashCanCard } from "./TrashCanCard";
 import { Column } from './Column';
+import useIsMobile from "./hooks/useIsMobile";
 
 export const Kanban = () => {
   
   const [cards, setCards] = useState(JSON.parse(localStorage.getItem('cards')) || DEFAULT_CARDS);
-  const [width, setWidth] = useState(window.innerWidth);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     localStorage.setItem('cards', JSON.stringify(cards));
   }, [cards])
   
-  useEffect(() => {
-    setWidth(window.innerWidth);
-  }, []);
-  
-  const isMobile = width <= 768;
-
-  
   return (
-    <div className="flex w-full gap-3 p-12 pb-20 bg-neutral-900 overflow-auto border-solid border-slate-400">
+    <div className="flex w-full gap-3 p-12 pb-20 bg-neutral-900 border-solid border-slate-400">
       <Column
         title="Backlog"
         column="backlog"

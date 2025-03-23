@@ -1,12 +1,11 @@
 import { useState, useRef } from 'react';
 import { motion } from "framer-motion";
-import { DropIndicatorLine } from './DropIndicatorLine';
 import {deleteIcon} from './assets/images';
 
-export const SubCard = ({ title, id, column, handleDragStart, setSubCards }) => {
+export const SubCard = ({ title, id, setSubCards, isDone }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
-  const [isDone, setIsDone] = useState(false);
+  const [isSubTaskDone, setIsSubTaskDone] = useState(isDone);
   
   const textareaRef = useRef(null);
 
@@ -41,22 +40,26 @@ export const SubCard = ({ title, id, column, handleDragStart, setSubCards }) => 
   };
   
   const handleDoneClick = () => {
-    setIsDone(prevDoneState =>!prevDoneState);
+    setIsSubTaskDone(isSubTaskDone => !isSubTaskDone)
+    setSubCards((prevSubCards) =>
+      prevSubCards.map((SubCard) =>
+        SubCard.id === id ? { ...SubCard, isDone:!SubCard.isDone } : SubCard
+      )
+    );
   };
 
   const handleDeleteclick = () => {
     setSubCards((prevSubCards) => prevSubCards.filter((SubCards) => SubCards.id!== id));
+    localStorage.removeItem(`subCards-${id}`)
   };
 
   return (
     <>
-      <DropIndicatorLine beforeId={id} column={column} />
       <motion.div
         layout
         layoutId={id}
-        draggable="true"
-        onDragStart={(e) => handleDragStart(e, { title, id, column })}
-        className="sub-group relative cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing"
+        draggable="false"
+        className="sub-group relative cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 mt-2 active:cursor-grabbing"
       >
         {isEditing && (
           <textarea
@@ -71,7 +74,7 @@ export const SubCard = ({ title, id, column, handleDragStart, setSubCards }) => 
             autoFocus
           />
         )}
-        <p className={`text-sm text-neutral-100 break-words ${isDone && "line-through text-opacity-30"}`}>{title}</p>
+        <p className={`text-sm text-neutral-100 break-words ${isSubTaskDone && "line-through text-opacity-30"}`}>{title}</p>
         <button
           className={`absolute top-1 right-8 hidden ${!isEditing && "group-hover:inline"} invert border-[1px] w-6 rounded-[100%] bg-neutral-200 hover:bg-neutral-400`}
           onClick={handleDoneClick}
