@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { TrashCanCard } from "./TrashCanCard";
 import { Column } from './Column';
 import useIsMobile from "./hooks/useIsMobile";
+import copyrightSign from "./assets/copyright-sign.svg";
 
 export const Kanban = () => {
   
@@ -13,7 +14,7 @@ export const Kanban = () => {
   }, [cards])
   
   return (
-    <div className="flex w-full gap-3 p-12 pb-20 bg-neutral-900 border-solid border-slate-400">
+    <div className="relative flex w-full gap-3 p-12 pb-20 bg-neutral-900 border-solid border-slate-400 h-fit">
       <Column
         title="Backlog"
         column="backlog"
@@ -43,6 +44,25 @@ export const Kanban = () => {
         setCards={setCards}
       />
       {!isMobile && <TrashCanCard setCards={setCards} />}
+      <div className='fixed bottom-16 right-5 flex-col justify-end text-gray-300 ml-2 max-sm:absolute max-sm:text-gray-500 max-sm:bottom-0 max-sm:right-0'>
+        <div className='max-sm:w-full max-sm:text-center max-sm:translate-x-[17%]'>
+          <a href="https://mohithgupta.github.io" target="_blank" rel="noreferrer" className="hover:text-slate-gray"> 
+            <p>Made with a little bit of 💙 by <span className='underline'>Mohith</span></p>
+          </a>
+        </div>
+        <br />
+        <div className='absolute right-0 flex-col gap-5 font-montserrat'>
+          <p><img
+            src={copyrightSign}
+            alt='copyright sign'
+            width={17}
+            height={17}
+            className='rounded-full mr-1 mb-1 inline-block max-sm:invert-[50%]'
+            />
+            Copyleft. All lefts reserved.</p>
+          <p className=''>Terms & Conditions - None</p> 
+        </div>
+      </div>
     </div>
   );
 };

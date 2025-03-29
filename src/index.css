@@ -25,3 +25,7 @@
 html{
   background-color: rgb(23 23 23 / 1);
 }
+
+#root{
+  height:100vh
+}
